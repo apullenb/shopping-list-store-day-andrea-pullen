@@ -1,13 +1,13 @@
 const store = {
   items: [
-    { id: cuid(), name: 'apples', checked: false },
-    { id: cuid(), name: 'oranges', checked: false },
-    { id: cuid(), name: 'milk', checked: true },
-    { id: cuid(), name: 'bread', checked: false }
+    { id: cuid(), name: 'apples', checked: false, editName: false },
+    { id: cuid(), name: 'oranges', checked: false, editName: false },
+    { id: cuid(), name: 'milk', checked: true, editName: false },
+    { id: cuid(), name: 'bread', checked: false, editName: false }
   ],
   hideCheckedItems: false
 };
-
+console.log(store.items)
 const generateItemElement = function (item) {
   let itemTitle = `<span class='shopping-item shopping-item__checked'>${item.name}</span>`;
   if (!item.checked) {
@@ -25,6 +25,9 @@ const generateItemElement = function (item) {
         </button>
         <button class='shopping-item-delete js-item-delete'>
           <span class='button-label'>delete</span>
+        </button>
+        <button class='shopping-item-edit js-item-edit'>
+          <span class='button-label'>edit name</span>
         </button>
       </div>
     </li>`;
@@ -88,6 +91,19 @@ const handleItemCheckClicked = function () {
     render();
   });
 };
+
+const handleEditItemClick = function () {
+  $('.js-shopping-list').on('click', '.js-item-edit', event => {
+    const id = getItemIdFromElement(event.currentTarget);
+       console.log(id.name);
+       displayBox(id);
+  })
+}
+
+const generateTextBox = function (id) {
+  const foundItem = store.items.find(item => item.id === id);  
+
+}
 
 const getItemIdFromElement = function (item) {
   return $(item)
@@ -160,6 +176,7 @@ const handleShoppingList = function () {
   handleItemCheckClicked();
   handleDeleteItemClicked();
   handleToggleFilterClick();
+  handleEditItemClick();
 };
 
 // when the page loads, call `handleShoppingList`
